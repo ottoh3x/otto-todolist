@@ -2,7 +2,7 @@ import { useModalStore } from "@/store/ModalStore";
 import { useBearStore } from "@/store/store";
 import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import React from "react";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 
 type Props = {
@@ -15,7 +15,6 @@ export default function Column({ id, index, todos } : Props) {
   const { deleteTodo } = useBearStore();
   const {openModal} = useModalStore()
 
-  console.log(id);
 
 
   const idToText: {
@@ -50,7 +49,7 @@ export default function Column({ id, index, todos } : Props) {
                 </h2>
                 <div className="space-y-2">
                   {todos?.map((todo, idx) => (
-                    <Draggable key={idx} draggableId={todo.title} index={idx}>
+                    <Draggable key={todo.$id} draggableId={todo.$id} index={idx}>
                       {(provided) => (
                         <div
                           {...provided.draggableProps}

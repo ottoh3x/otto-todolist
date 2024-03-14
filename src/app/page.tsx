@@ -2,7 +2,7 @@
 import Column from "@/components/Column";
 import { useBearStore } from "@/store/store";
 import Image from "next/image";
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { useEffect } from "react";
 
 export default function Home() {
