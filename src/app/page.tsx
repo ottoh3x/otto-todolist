@@ -100,7 +100,6 @@ export default function Home() {
                   id={id}
                   index={index}
                   todos={todos.todos}
-                  columns={board.columns}
                 />
               ))}
               {/* <Column

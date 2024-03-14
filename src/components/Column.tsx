@@ -4,7 +4,14 @@ import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-export default function Column({ id, index, todos, columns }) {
+
+type Props = {
+  id:TypedColumn,
+  todos:Todo[],
+  index:number
+}
+
+export default function Column({ id, index, todos } : Props) {
   const { deleteTodo } = useBearStore();
   const {openModal} = useModalStore()
 
@@ -19,7 +26,7 @@ export default function Column({ id, index, todos, columns }) {
     "done" : "Done"
   }
   return (
-    <Draggable draggableId={id} index={index} key={id} >
+    <Draggable draggableId={id} index={index} >
       {(provided) => (
         <div
           {...provided.draggableProps}
