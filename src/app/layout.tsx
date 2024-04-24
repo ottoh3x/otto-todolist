@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AddModal from "@/components/AddModal";
+import Nav from "@/components/Navbar";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-gray-50">{children} 
-      <AddModal /></body>
+      <body className="bg-neutral-950">
+        <Nav />
+        <AddModal />
+        {children}
+
+        <Toaster richColors closeButton />
+
+      </body>
     </html>
   );
 }

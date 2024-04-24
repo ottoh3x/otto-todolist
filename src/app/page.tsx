@@ -3,20 +3,38 @@ import Column from "@/components/Column";
 import { useBearStore } from "@/store/store";
 import Image from "next/image";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useStore } from "@/store/todosStore";
+import { getTodosGroupedByColumn } from "../../getTodosGroupedByColumn";
 
 export default function Home() {
-  const [getBoard, board, setBoardState,updateTodos] = useBearStore((state) => [
+  // const [getBoard, board, setBoardState,updateTodos] = useBearStore((state) => [
+  //   state.getBoard,
+  //   state.board,
+  //   state.setBoardState,
+  //   state.updateTodos
+  // ]);
+  const [loading,setLoading] = useState(true)
+  const [br,setBr] = useState(getTodosGroupedByColumn())
+
+
+  
+  
+  const [getBoard, board, setBoardState] = useStore((state) => [
     state.getBoard,
     state.board,
     state.setBoardState,
-    state.updateTodos
+    // state.updateTodos
   ]);
 
+
   useEffect(() => {
-    getBoard();
+    setLoading(true)
+    getBoard()
+    setLoading(false)
   }, [getBoard]);
 
+  console.log(loading)
   console.log(board);
 
   const handleOnDragEnd = (result: DropResult) => {
@@ -78,7 +96,7 @@ export default function Home() {
         todos: finishTodos,
       });
 
-      updateTodos(todoMoved,finishCol.id)
+      // updateTodos(todoMoved,finishCol.id)
 
       setBoardState({ ...board, columns: newColumns });
     }
@@ -92,9 +110,9 @@ export default function Home() {
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              className="grid grid-cols-3 gap-5 max-w-7xl mx-auto bg-gray-50 mt-20 text-black"
+              className="grid lg:grid-cols-3 gap-5 max-w-7xl mx-auto  mt-20 text-white"
             >
-              {Array.from(board.columns.entries()).map(([id, todos], index) => (
+              {!loading && Array.from(board.columns.entries()).map(([id, todos], index) => (
                 <Column
                   key={id}
                   id={id}

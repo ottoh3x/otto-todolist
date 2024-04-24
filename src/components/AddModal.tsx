@@ -5,6 +5,10 @@ import { useModalStore } from "@/store/ModalStore";
 import { useBearStore } from "@/store/store";
 import { RadioGroup } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
+import { toast } from "sonner";
+import { Button } from "@nextui-org/react";
+import { useStore } from "@/store/todosStore";
+
 const types = [
   {
     id: "todo",
@@ -16,7 +20,7 @@ const types = [
     id: "inprogress",
     name: "In Progress",
     description: "A task that is currently being worked on",
-    color: "bg-yellow-500",
+    color: "bg-yellow-600",
   },
   {
     id: "done",
@@ -33,14 +37,16 @@ export default function AddModal() {
     setNewTaskInput,
     newTaskType,
     setNewTaskType,
-  } = useBearStore();
+  } = useStore();
   const [selected, setSelected] = useState(types[0].id);
+  const taskAddedNotify = () => toast.success("New Task Has Been Added");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!newTaskInput) return;
 
     addTask(newTaskInput, newTaskType);
+    taskAddedNotify();
     closeModal();
   };
   return (
@@ -84,11 +90,11 @@ export default function AddModal() {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all`}
+                className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all`}
               >
                 <Dialog.Title
                   as="h3"
-                  className={`text-lg font-medium leading-6 text-gray-900 pb-2`}
+                  className={`text-lg font-medium leading-6 text-gray-50 pb-2`}
                 >
                   Add a Task
                 </Dialog.Title>
@@ -99,7 +105,7 @@ export default function AddModal() {
                     value={newTaskInput}
                     onChange={(e) => setNewTaskInput(e.target.value)}
                     placeholder="Enter a task here..."
-                    className="w-full border border-gray-300 rounded-md outline-none p-5"
+                    className="w-full border border-neutral-700 bg-neutral-900 text-green-600 rounded-md outline-none p-5"
                   />
                 </div>
 
@@ -120,10 +126,10 @@ export default function AddModal() {
                             className={({ active, checked }) =>
                               `${
                                 active
-                                  ? "ring-1 ring-white/60 ring-offset-2 ring-offset-sky-50"
+                                  ? ""
                                   : ""
                               }
-                  ${checked ? `${type.color} text-white` : "bg-white"}
+                  ${checked ? `${type.color} text-white` : "bg-neutral-950"}
                     relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                             }
                           >
@@ -136,8 +142,8 @@ export default function AddModal() {
                                         as="p"
                                         className={`font-medium  ${
                                           checked
-                                            ? "text-white"
-                                            : "text-gray-900"
+                                            ? "text-white "
+                                            : "text-gray-100"
                                         }`}
                                       >
                                         {type.name}
@@ -171,13 +177,13 @@ export default function AddModal() {
                 </div>
 
                 <div>
-                  <button
+                  <Button
                     type="submit"
                     // disabled={!newTaskInput}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 "
+                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 "
                   >
                     Add Task
-                  </button>
+                  </Button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
