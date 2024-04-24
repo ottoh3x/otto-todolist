@@ -10,7 +10,7 @@ export const getTodosGroupedByColumn = () => {
   // );
 
   // const todos = data.documents;
-  const getStorage = window !== undefined && localStorage.getItem('todos-storage')
+  const getStorage = (typeof window !== "undefined") && localStorage.getItem('todos-storage')
   const todos = JSON.parse(getStorage).state.todos
   
  
