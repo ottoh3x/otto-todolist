@@ -1,41 +1,23 @@
 "use client";
 import Column from "@/components/Column";
-import { useBearStore } from "@/store/store";
-import Image from "next/image";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { useEffect, useState } from "react";
 import { useStore } from "@/store/todosStore";
-import { getTodosGroupedByColumn } from "../../getTodosGroupedByColumn";
 
 export default function Home() {
-  // const [getBoard, board, setBoardState,updateTodos] = useBearStore((state) => [
-  //   state.getBoard,
-  //   state.board,
-  //   state.setBoardState,
-  //   state.updateTodos
-  // ]);
-  const [loading,setLoading] = useState(true)
-  const [br,setBr] = useState(getTodosGroupedByColumn())
+  const [loading, setLoading] = useState(true);
 
-
-  
-  
   const [getBoard, board, setBoardState] = useStore((state) => [
     state.getBoard,
     state.board,
     state.setBoardState,
-    // state.updateTodos
   ]);
 
-
   useEffect(() => {
-    setLoading(true)
-    getBoard()
-    setLoading(false)
+    setLoading(true);
+    getBoard();
+    setLoading(false);
   }, [getBoard]);
-
-  console.log(loading)
-  console.log(board);
 
   const handleOnDragEnd = (result: DropResult) => {
     const { source, destination, type } = result;
@@ -53,7 +35,6 @@ export default function Home() {
     const columns = Array.from(board.columns);
     const startColIndex: any = columns[Number(source.droppableId)];
     const finishColIndex: any = columns[Number(destination.droppableId)];
-
 
     const startCol: Column = {
       id: startColIndex[0],
@@ -112,20 +93,17 @@ export default function Home() {
               ref={provided.innerRef}
               className="grid lg:grid-cols-3 gap-5 max-w-7xl mx-auto  mt-20 text-white"
             >
-              {!loading && Array.from(board.columns.entries()).map(([id, todos], index) => (
-                <Column
-                  key={id}
-                  id={id}
-                  index={index}
-                  todos={todos.todos}
-                />
-              ))}
-              {/* <Column
-                id={`in progress`}
-                index={1}
-                todos={todos["in progress"]}
-              />
-              <Column id={`done`} index={2} todos={todos.done} /> */}
+              {!loading &&
+                Array.from(board.columns.entries()).map(
+                  ([id, todos], index) => (
+                    <Column
+                      key={id}
+                      id={id}
+                      index={index}
+                      todos={todos.todos}
+                    />
+                  )
+                )}
             </div>
           )}
         </Droppable>

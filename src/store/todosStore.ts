@@ -6,7 +6,6 @@ interface TodosState {
   board: Board;
   getBoard: () => void;
   setBoardState: (board: Board) => void;
-  // updateTodos: (todo: Todo, columnId: TypedColumn) => void;
   deleteTodo: (todoIndex: number, todoId: Todo, id: TypedColumn) => void;
   newTaskInput: string;
   setNewTaskInput: (input: string) => void;
@@ -27,7 +26,7 @@ export const useStore = create<TodosState>(
       setNewTaskInput: (input: string) => set({ newTaskInput: input }),
       setNewTaskType: (columnId: TypedColumn) => set({ newTaskType: columnId }),
 
-      getBoard:  () => {
+      getBoard: () => {
         const board = getTodosGroupedByColumn();
         set({ board });
       },
@@ -35,13 +34,12 @@ export const useStore = create<TodosState>(
       deleteTodo: async (todoIndex: number, todo: Todo, id: TypedColumn) => {
         const newCols = new Map(get().board.columns);
         newCols.get(id)?.todos.splice(todoIndex, 1);
-        const newTodos = get().todos.filter(t => t.$id !== todo.$id)
+        const newTodos = get().todos.filter((t) => t.$id !== todo.$id);
 
-        set({ board: { columns: newCols },todos:newTodos });
-        
+        set({ board: { columns: newCols }, todos: newTodos });
       },
       addTask: async (todo: string, columnId: TypedColumn) => {
-        const id = crypto.randomUUID()
+        const id = crypto.randomUUID();
         set((state) => ({
           ...state,
           todos: [
@@ -79,10 +77,9 @@ export const useStore = create<TodosState>(
           };
         });
       },
-    })
-    ,
+    }),
     {
-      name: "todos-storage", // name of the item in the storage (must be unique)
+      name: "todos-storage",
     }
   ),
   {}

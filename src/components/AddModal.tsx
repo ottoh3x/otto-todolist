@@ -2,7 +2,6 @@
 import { useState, Fragment, FormEvent } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useModalStore } from "@/store/ModalStore";
-import { useBearStore } from "@/store/store";
 import { RadioGroup } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/16/solid";
 import { toast } from "sonner";
@@ -58,10 +57,6 @@ export default function AddModal() {
         className="relative z-10"
         onClose={() => closeModal()}
       >
-        {/*
-          Use one Transition.Child to apply one transition to the backdrop...
-        */}
-
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center ">
             <Transition.Child
@@ -90,7 +85,7 @@ export default function AddModal() {
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel
-                className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-800 p-6 text-left align-middle shadow-xl transition-all`}
+                className={`w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-900 p-6 text-left align-middle shadow-xl transition-all`}
               >
                 <Dialog.Title
                   as="h3"
@@ -105,7 +100,7 @@ export default function AddModal() {
                     value={newTaskInput}
                     onChange={(e) => setNewTaskInput(e.target.value)}
                     placeholder="Enter a task here..."
-                    className="w-full border border-neutral-700 bg-neutral-900 text-green-600 rounded-md outline-none p-5"
+                    className="w-full border border-neutral-700 bg-neutral-800/90 text-green-600 rounded-md outline-none p-5"
                   />
                 </div>
 
@@ -124,11 +119,7 @@ export default function AddModal() {
                             key={type.id}
                             value={type.id}
                             className={({ active, checked }) =>
-                              `${
-                                active
-                                  ? ""
-                                  : ""
-                              }
+                              `${active ? "" : ""}
                   ${checked ? `${type.color} text-white` : "bg-neutral-950"}
                     relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                             }
@@ -179,8 +170,8 @@ export default function AddModal() {
                 <div>
                   <Button
                     type="submit"
-                    // disabled={!newTaskInput}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 "
+                    disabled={!newTaskInput}
+                    className="inline-flex justify-center rounded-md border border-transparent bg-gray-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-green-200 cursor-pointer"
                   >
                     Add Task
                   </Button>

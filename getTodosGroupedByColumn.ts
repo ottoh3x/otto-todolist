@@ -1,43 +1,29 @@
-import { useStore } from "@/store/todosStore";
-import { databases } from "./appwrite";
-
 export const getTodosGroupedByColumn = () => {
-  // const { tds } = useBearStore();
-  // const data = await databases.listDocuments(
-  //   process.env.NEXT_PUBLIC_DATABASE_ID!,
-  //   process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!
-  // );
-
-  // const todos = data.documents;
+  // get todos from localstorage
   const getStorage =
     typeof window !== "undefined" && localStorage.getItem("todos-storage");
   let todos: any[] = [];
-  // Function to safely parse JSON and extract todos
   function initializeTodos(storageItem: string | null) {
     if (storageItem !== null) {
       try {
         const parsed = JSON.parse(storageItem);
-        // Safely access 'todos' ensuring 'state' exists and has 'todos' property
         if (parsed && parsed.state && Array.isArray(parsed.state.todos)) {
           todos = parsed.state.todos;
         } else {
-          // Handle the case where the 'state' or 'state.todos' does not exist
           console.warn("Invalid or unexpected JSON structure:", parsed);
-          todos = []; // Reset to default or handle appropriately
+          todos = [];
         }
       } catch (error) {
         console.error("Failed to parse todos:", error);
-        todos = []; // Reset or handle error case
+        todos = [];
       }
     } else {
       console.warn("No stored todos found");
-      todos = []; // Set default or handle the case of no data
+      todos = [];
     }
   }
 
-  // Assuming 'getStorage' contains the JSON string from localStorage
-  initializeTodos(getStorage);
-  // const todos = JSON.parse(getStorage).state.todos
+  initializeTodos(getStorage as any);
 
   const columns = todos.reduce((acc: Map<TypedColumn, Column>, todo) => {
     if (!acc.get(todo.status)) {
@@ -66,6 +52,8 @@ export const getTodosGroupedByColumn = () => {
       });
     }
   }
+
+  // sorting columns
 
   const sortedColumns = new Map(
     Array.from(columns.entries()).sort(

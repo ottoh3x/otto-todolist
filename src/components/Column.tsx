@@ -1,5 +1,4 @@
 import { useModalStore } from "@/store/ModalStore";
-import { useBearStore } from "@/store/store";
 import { PlusCircleIcon, XCircleIcon } from "@heroicons/react/16/solid";
 import React from "react";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
@@ -40,9 +39,9 @@ export default function Column({ id, index, todos }: Props) {
                   snapshot.isDraggingOver ? "bg-green-600" : "bg-neutral-700/50"
                 }`}
               >
-                <h2 className="flex justify-between font-bold text-xl p-2">
+                <h2 className="flex justify-between items-center  font-bold text-xl p-2">
                   {idToText[id]}
-                  <strong className="font-semibold  px-3 py-1  rounded-lg bg-white text-black max-w-fit text-sm">
+                  <strong className="font-bold  px-3 py-1 border border-neutral-700 rounded-lg text-white max-w-fit text-sm">
                     {todos.length}
                   </strong>
                 </h2>
@@ -58,19 +57,21 @@ export default function Column({ id, index, todos }: Props) {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           ref={provided.innerRef}
-                          className="bg-neutral-900 hover:bg-neutral-950 rounded-md drop-shadow-md"
+                          className="bg-neutral-900 hover:bg-neutral-950 rounded-md drop-shadow-md relative"
                         >
                           <div className="flex justify-between items-center p-5">
-                            <p>{todo.title}</p>
+                            <p className="w-full max-w-fit break-words">
+                              {todo.title}
+                            </p>
                             <button
                               onClick={() => {
                                 deleteTodo(idx, todo, id);
-                                console.log(idx,todo,id)
+                                console.log(idx, todo, id);
                                 toast.error("Task Deleted");
                               }}
-                              className="text-red-500 hover:text-red-600"
+                              className="text-red-500 hover:text-red-600 absolute -top-2 -right-2"
                             >
-                              <XCircleIcon className="size-8 ml-5" />
+                              <XCircleIcon className="size-6 ml-5" />
                             </button>
                           </div>
                         </div>
